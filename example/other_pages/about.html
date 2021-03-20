@@ -1,0 +1,35 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MiniBuilder.js Example - About</title>
+
+	<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+	<!-- Don't forget to import the builder from the right place -->
+	
+	<script src="../../src/MiniBuilder.js"></script>
+	<script>
+		const builder = new Builder('..')
+
+		builder.add('header.html', {
+				title: 'MiniBuilder.js example - About',
+				articles_status: 'active',
+				about_status: 'incative',
+				articles_link: '../index.html'
+			}
+		)
+
+		builder.add('about_content.html')
+
+		builder.add('footer.html')
+
+		builder.update(document)
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MiniBuilder.js Example</title>
+
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<script src="../src/MiniBuilder.js"></script>
+	<script>
+		//create the builder
+		const builder = new Builder()
+
+		//add some templates
+		builder.add(
+			//the name of the template file
+			'header.html',
+			//An object whose keys are the variable names
+			//and the values are the variable's values 
+			{
+				title: 'MiniBuilder.js example',
+				articles_status: 'incative',
+				about_status: 'active',
+				about_link: './other_pages/about.html'
+			}
+		)
+
+		builder.add('article.html', {
+			name: '1st article',
+			date: '2021/03/19',
+			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+			paragraph_2: 'Morbi sed accumsan lacus.',
+		})
+
+		builder.add('article.html', {
+			name: '2nd article',
+			date: '2021/03/19',
+			description: 'Curabitur in orci vel mi vehicula elementum eleifend et ipsum.',
+		})
+
+		builder.add('article.html', {
+			name: '3nd article',
+			date: '2021/03/19',
+			description: 'Nullam non elit eu lorem iaculis efficitur ut vitae lectus.',
+			paragraph_2: 'Phasellus tincidunt urna sit amet urna semper rhoncus. Nullam sed risus purus.',
+		})
+
+		builder.add('article.html', {
+			name: '4th article',
+			date: '2021/03/19',
+			description: 'Cras rutrum aliquet ipsum, id efficitur justo sagittis vel.',
+		})
+
+		//variables are optional, you can also just append some normal html
+		builder.add('footer.html')
+
+		//build your document (note that this is an async function)
+		builder.update(document)
+	</script>
+</body>
+
+</html>
