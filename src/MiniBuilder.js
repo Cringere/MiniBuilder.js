@@ -6,7 +6,7 @@ async function read(file_path) {
 }
 
 /*
-grammer:
+grammar:
 
 lines			-> statement lines
 statement		-> VARIABLE
@@ -79,7 +79,7 @@ class Scanner {
 			if (m = varRe.exec(t)) return {
 				var: m[1]
 			}
-			console.error('Unkown token: ' + t);
+			console.error('Unknown token: ' + t);
 		})
 	}
 }
@@ -222,14 +222,14 @@ The main class of the api.
 Use it to add templates, and then update your page.
 */
 class Builder {
-	constructor(rootFolder, templatesFoler) {
+	constructor(rootFolder, templatesFolder) {
 		this.domSources = []
 
 		this.articleTemplate = undefined
 
 		this.globalVariables = {}
 		this.globalVariables.root_folder = rootFolder || '.'
-		this.globalVariables.templates_folder = templatesFoler || 'templates'
+		this.globalVariables.templates_folder = templatesFolder || 'templates'
 
 		this.activePromises = []
 	}
@@ -257,7 +257,7 @@ class Builder {
 			//get the body of the HTML document
 			const body = document.getElementsByTagName('body')[0]
 
-			//TODO: should all content be sotred in a div?
+			//TODO: should all content be stored in a div?
 			//put all constructed elements in a single div and append all to the document's body
 			//const element = document.createElement('div')
 			// body.appendChild(element)

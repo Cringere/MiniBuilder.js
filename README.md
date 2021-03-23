@@ -2,7 +2,7 @@
 A small library for building static websites using templated HTML files.
 
 ## Usage
-### Implentation
+### Implementation
 To use the API, simply copy `src/MiniBuilder.js` to your project's directory.
 
 ### Example
@@ -13,7 +13,7 @@ Imagine you have the following file hierarchy:
 	├─ MiniBuilder.js
 	├─ templates/
 	│  ├─ t1.html
-	│  ├─ t2.htlm
+	│  ├─ t2.html
 
 With your main file being `index.html` and the two templated files `t1.html` and `t2.html`.
 In `index.html`, we can place a script that will feed `t1.html` and `t2.html` to a `Builder` object that will
@@ -53,7 +53,7 @@ generate the webpage.
 Variables are a great way to make small modifications to you templated file.
 The API will replace any variables it finds in the HTML with the value you specified
 it in the javascript `builder.add` call.
-The sytax for implementing a variable is `{{` followed by the variable's name followed by `}}`.
+The syntax for implementing a variable is `{{` followed by the variable's name followed by `}}`.
 For example, in `t1.html`:
 	
 	<div>
@@ -79,14 +79,14 @@ For a fully fleshed out example, check out the `example`.
 
 ### File hierarchy
 By default, the API expects the templated files to be in a folder named `templates`, and a path to the root of the directory.
-That can be changed by passing in different paths to the `Builder` construcor.
+That can be changed by passing in different paths to the `Builder` constructor.
 For example:
 
 	root/
 	├─ MiniBuilder.js
 	├─ some_other_templates/
 	│  ├─ one.html
-	│  ├─ two.htlm
+	│  ├─ two.html
 	├─ main_files/
 	│  ├─ index.html
 
