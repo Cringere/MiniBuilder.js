@@ -75,7 +75,7 @@ footer {
 	padding-left: 10px;
 	padding-right: 10px;
 }
-.link-incative {
+.link-inactive {
 	color: gray;
 	pointer-events: none;
 }

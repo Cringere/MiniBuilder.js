@@ -20,11 +20,15 @@
 				title: 'MiniBuilder.js example - About',
 				articles_status: 'active',
 				about_status: 'inactive',
-				articles_link: '../index.html'
+				articles_link: '../index.html',
 			}
 		)
 
-		builder.add('about_content.html')
+		builder.add('about_content.html',{
+			more_info: {file: '../src/about.txt', variables: {
+				end: '<br>...'
+			}}
+		})
 
 		builder.add('footer.html')
 

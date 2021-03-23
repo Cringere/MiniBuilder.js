@@ -234,12 +234,23 @@ class Builder {
 		this.activePromises = []
 	}
 
-	add(file, variables) {
-		//allocate place for the file
-		const i = this.domSources.length
-		this.domSources.push('')
+	parse(file, variables) {
+		variables = variables || {}
+		let source = ''
 
-		this.activePromises.push(read(this.globalVariables.root_folder + '/' + this.globalVariables.templates_folder + '/' + file).then(source => {
+		let allPromises = []
+
+		//parse all variables that reference a file
+		Object.keys(variables).filter(k => variables[k].file != undefined).forEach(k => {
+			allPromises.push(
+				this.parse(variables[k].file, variables[k].variables).then(result => variables[k] = result))
+		})
+
+		//read the source
+		allPromises.push(read(file).then(s => source = s))
+
+		//wait for all file variables, and the source, then parse the source
+		return Promise.all(allPromises).then(() => {
 			const tokens = Scanner.tokenize(source)
 
 			const parser = new Parser(tokens)
@@ -248,8 +259,20 @@ class Builder {
 			const evaluator = new Evaluator(ast, variables, this.globalVariables)
 			const result = evaluator.evaluate()
 
-			this.domSources[i] = result
-		}))
+			return result
+		})
+	}
+
+	addFile(file, variables) {
+		//allocate place for the file
+		const i = this.domSources.length
+		this.domSources.push('')
+
+		this.activePromises.push(this.parse(file, variables).then(result => this.domSources[i] = result))
+	}
+
+	add(file, variables) {
+		this.addFile(this.globalVariables.root_folder + '/' + this.globalVariables.templates_folder + '/' + file, variables)
 	}
 
 	async update(document) {
