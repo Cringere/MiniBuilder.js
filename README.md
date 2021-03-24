@@ -6,7 +6,7 @@ A small library for building static websites using templated HTML files.
 To use the API, simply copy `src/MiniBuilder.js` to your project's directory.
 
 ### Example
-Imagine you have the following file hierarchy:
+Suppose you have the following file hierarchy:
 
 	root/
 	├─ index.html
@@ -67,13 +67,10 @@ You can also add some simple logic. For example, in `t2.html`:
 		{{if first}}
 			<p class="class-1 class-2 class-3">This is the first sentence.</p>
 		{{endif}}
-		{{if second}}
-			<p class="class-4 class-5 class-6">This is the second sentence.</p>
-		{{endif}}
 	</div>
 	
-The first `p` will be included in the final webpage if a variable named `first` exists. Otherwise the lines
-between that `if` and `endif` will be ignored. The same is applied to `second`.
+The first `p` tag will be included in the final webpage if a variable named `first` exists. Otherwise the lines
+between `{{if first}}` and `{{endif}}` will be ignored.
 
 For a fully fleshed out example, check out the `example`.
 
