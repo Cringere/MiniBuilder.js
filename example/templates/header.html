@@ -6,6 +6,18 @@
 		<div class="col">
 			<a class="link link-{{articles_status}}" href="{{articles_link}}">Articles</a>
 			<a class="link link-{{about_status}}" href="{{about_link}}">About</a>
+			{{if user}}
+				<div class="dropdown">
+					<button type="button" class="btn" onclick="">My account</button>
+					<div class="dropdown-items">
+						<a class="link" href="#">My Profile</a>
+						<a class="link" href="#">Settings</a>
+						<a class="link" onclick="signOut()">Sign-out</a>
+					</div>
+				</div>
+			{{else}}
+				<button type="button" class="btn" onclick="signIn()">Sign-in</button>
+			{{endif}}
 		</div>
 	</div>
 </header>

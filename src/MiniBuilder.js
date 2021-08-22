@@ -27,6 +27,7 @@ input: templated HTML source
 output: an array of tokens. Each token can be one of the following:
 	source	- regular html code
 	if		- an if statement
+	else	- an else statement
 	endif	- an endif statement
 	var		- a reference to a variable
 */
@@ -63,6 +64,7 @@ class Scanner {
 	static parameterize(incompleteTokens) {
 		const ifRe = /{{if\s+([^}]+)}}/
 		const endifRe = /{{endif}}/
+		const elseRe = /{{else}}/
 		const varRe = /{{([^}\s]+)}}/
 		return incompleteTokens.map(t => {
 			if (!t.startsWith('{{')) return {
@@ -75,6 +77,9 @@ class Scanner {
 			}
 			if (m = endifRe.exec(t)) return {
 				endif: 'endif'
+			}
+			if (m = elseRe.exec(t)) return {
+				else: 'else'
 			}
 			if (m = varRe.exec(t)) return {
 				var: m[1]
@@ -123,7 +128,15 @@ class Parser {
 	parseIf() {
 		let cond = this.next().if
 		let lines = this.parseLines()
-		this.next()
+		let after = this.next()
+		if (after.else)
+			return {
+				if: {
+					cond: cond,
+					lines: lines,
+					else: this.parseLines()
+				}
+			}
 		return {
 			if: {
 				cond: cond,
@@ -207,6 +220,8 @@ class Evaluator {
 		if (node.if) {
 			if (this.evaluateCondition(node.if.cond)) {
 				return this.evaluate(node.if.lines)
+			} else if (node.if.else) {
+				return this.evaluate(node.if.else)
 			}
 			return ''
 		}
@@ -241,10 +256,13 @@ class Builder {
 		let allPromises = []
 
 		//parse all variables that reference a file
-		Object.keys(variables).filter(k => variables[k].file != undefined).forEach(k => {
-			allPromises.push(
-				this.parse(variables[k].file, variables[k].variables).then(result => variables[k] = result))
-		})
+		Object.keys(variables)
+			.filter(k => variables[k].file != undefined)
+			.forEach(k => {
+				allPromises.push(
+					this.parse(variables[k].file, variables[k].variables).then(result => variables[k] = result))
+			}
+		)
 
 		//read the source
 		allPromises.push(read(file).then(s => source = s))
@@ -264,6 +282,12 @@ class Builder {
 	}
 
 	addFile(file, variables) {
+		//filter all undefined
+		for (let key in variables) {
+			if (variables[key] == undefined)
+				delete variables[key]
+		}
+
 		//allocate place for the file
 		const i = this.domSources.length
 		this.domSources.push('')
